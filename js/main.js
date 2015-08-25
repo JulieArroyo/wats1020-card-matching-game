@@ -16,29 +16,29 @@ var startGame = function(){
 	gameState.cardsMatched = [];
 	gameState.matchesMade = 0;
 	gameState.guessesMade = 0;
-	
+
 	updateInfoDisplay();
-	
+
 	//Cards loading
-	deck1 = shuffle(deck.slice()); 
+	deck1 = shuffle(deck.slice());
 	// SLICE makes copy of deck, then send into shuffle
 	deck2 = shuffle(deck.slice());
 	// Make a copy of each card
 	gameState.cards = [].concat(deck1, deck2);
 	// concat joins the 2 decks
 	console.log('gameState initialized');
-	
+
 	//initally hide this element
 	gameContainer.empty();
 	infoDisplay.removeClass('hidden');
-	
+
 	//attach card list to gameboard
 	var cardList = $('<ul>').attr({
 		id: 'card-list'
 	}).appendTo(gameContainer);
-	buildGameBoard();	
+	buildGameBoard();
 };
-	//add images to cards 
+	//add images to cards
 	var buildGameBoard = function(){
 		console.log('Getting game ready');
 		var cardList = $('#card-list');
@@ -56,11 +56,11 @@ var startGame = function(){
 				class: 'back'
 			}).appendTo(newCardItem);
 			newCardItem.appendTo(cardList);
-			
+
 			addCardListener(newCardItem);
 		});
 	};
-	
+
 	var evaluateGuess = function(target){
 		//construct a card object from current guess
 		console.log('evaluating guess');
@@ -71,14 +71,14 @@ var startGame = function(){
 			file: cardTarget.data('file')
 		}
 		gameState.currentGuess.push(guessCard);
-		
+
 		if (gameState.currentGuess.length == 2){
 			console.log('evaluating selection');
 			//evaluate if CurrentGuess array has 2 entries
 			gameState.guessesMade += 1;
-			
+
 			if(gameState.currentGuess[0].slug == gameState.currentGuess[1].slug) {
-			//if cards match, give points, then remove match	
+			//if cards match, give points, then remove match
 				console.log("Good Guess!");
 				gameState.machesMade += 1;
 				gameState.cardsMatched.push(gameState.currentGuess[0]);
@@ -95,9 +95,9 @@ var startGame = function(){
 		}else if (gameState.currentGueess.length < 2) {
 			 // If the currentGuess Array has fewer than 2 entries in it, let it keep going
         console.log('first selection of a pair');
-			
+
 		}else if (gameState.currentGuess.length > 2) {
-			//if more than 2 guesses are made, then reset 
+			//if more than 2 guesses are made, then reset
 			console.log('MORE THAN 2 GUESSES. RESET!');
 			setTimeout( resetGuess, 1000);
 		}
@@ -119,12 +119,12 @@ var startGame = function(){
 			endGame();
 		}
 	};
-	
+
 	var recalculateScore = function(){
 		gameState.score = (gameState.matchesMAde * 5) -
 			(gameState.guessesMade * 2);
 	};
-	
+
 	var updateInfoDisplay = function(){
 		matchesDisplay.fadeOut().text(gameState.matchesMade).fadeIn();
 		guessesDisplay.fadeOut().text(gameState.guessesMade).fadeIn();
@@ -135,7 +135,7 @@ var startGame = function(){
 		$('li[data-slug="' + gameState.currentGuess[1].slug + '"].back').fadeIn();
 		gameState.currentGuess =[];
 	};
-	
+
 	var endGame = function(){
 		var rating = "unknown";
 		if (gameState.score > 20){
@@ -156,15 +156,15 @@ var startGame = function(){
 			$('#end-game-modal').modal('hide');
 		});
 	};
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
 	/***************** Event Listeners for Start Buttons **************************/
 $('.btn-start').on('click', function(event){
     event.preventDefault();
@@ -218,7 +218,7 @@ var deck = [ // An Array of card objects that can be used in the game.
         name: '6',
         file: '6.jpg'
     },
- 
+
 ];
 var cardBack = { // The default card backing.
     slug: 'default',
@@ -242,9 +242,3 @@ function shuffle(array) {
 
   return copy;
 }
-
-	
-	
-	
-
-
